@@ -1,0 +1,13 @@
+MOVIE-LIKE VERSION
+
+This version uses a true CSS 3D hinge animation for the flap.
+
+Layer order:
+1. envelope-liner.png
+2. invitation-exact.png
+3. envelope-pocket.png
+4. envelope-flap-movie.png
+5. envelope-closed.png (brief initial cover only)
+
+The invitation is clipped at the bottom while it is still inside the pocket,
+so it cannot stick out below the envelope.
