@@ -1,0 +1,14 @@
+This version intentionally does NOT use envelope-open.png.
+
+The animation uses only:
+- envelope-closed.png
+- envelope-liner.png
+- invitation-exact.png
+- envelope-pocket.png
+
+Layer order:
+1. Talavera liner
+2. Invitation
+3. Front pocket
+
+This removes the duplicated/fake open flap effect.

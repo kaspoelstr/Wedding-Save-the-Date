@@ -8,70 +8,158 @@
     :root { --cream:#f4efe6; --navy:#123a72; --pink:#d84d86; }
     * { box-sizing:border-box; }
     html,body { margin:0; min-height:100%; background:var(--cream); }
-    body { font-family:Georgia,"Times New Roman",serif; color:var(--navy); overflow-x:hidden; }
-    .page { min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:14px 10px 40px; }
-    .stage { position:relative; width:min(980px,100%); height:clamp(650px,82vw,830px); }
-    .env-wrap { position:absolute; left:50%; top:6px; width:min(900px,96vw); aspect-ratio:1484/1060; transform:translateX(-50%); perspective:1800px; filter:drop-shadow(0 14px 20px rgba(70,48,28,.18)); }
-    .layer { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; pointer-events:none; }
-    .liner { z-index:1; }
-    .card { z-index:2; left:50%; top:48%; width:36%; height:auto; inset:auto; transform:translate(-50%,22%) scale(.78); opacity:0; transform-origin:center center; filter:drop-shadow(0 12px 18px rgba(35,25,15,.25)); }
-    .pocket { z-index:3; }
-    .flap { z-index:4; transform-origin:50% 66.5%; backface-visibility:hidden; transform-style:preserve-3d; }
-    .seal { z-index:5; inset:auto; left:50%; top:56%; width:15.5%; height:auto; transform:translate(-50%,-50%); filter:drop-shadow(0 5px 6px rgba(45,24,5,.32)); }
-    .env-wrap.play .seal { animation:sealRelease .7s cubic-bezier(.2,.7,.2,1) .08s forwards; }
-    .env-wrap.play .flap { animation:flapOpen 1.0s cubic-bezier(.25,.7,.2,1) .68s forwards; }
-    .env-wrap.play .card { animation:cardPeek .55s ease 1.48s forwards, cardRise 1.4s cubic-bezier(.18,.75,.15,1) 1.98s forwards, cardSettle .32s ease 3.38s forwards, cardFade .3s ease 4.02s forwards; }
-    .env-wrap.play .liner,.env-wrap.play .pocket { animation:envelopeAway .55s ease 3.78s forwards; }
-    @keyframes sealRelease {
-      0% { transform:translate(-50%,-50%) scale(1); opacity:1; }
-      25% { transform:translate(-50%,-50%) scale(1.08); }
-      100% { transform:translate(-50%,125%) rotate(20deg) scale(.72); opacity:0; }
+    body {
+      font-family:Georgia,"Times New Roman",serif;
+      color:var(--navy);
+      overflow-x:hidden;
     }
-    @keyframes flapOpen {
-      0% { transform:rotateX(0deg); opacity:1; }
-      72% { transform:rotateX(150deg); opacity:1; }
-      100% { transform:rotateX(178deg); opacity:0; }
+    .page {
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:12px 10px 40px;
+    }
+    .stage {
+      position:relative;
+      width:min(980px,100%);
+      height:clamp(650px,82vw,850px);
+      overflow:visible;
+    }
+    .envelope-scene {
+      position:absolute;
+      left:50%;
+      top:10px;
+      width:min(900px,96vw);
+      aspect-ratio:1484/1060;
+      transform:translateX(-50%);
+      filter:drop-shadow(0 14px 20px rgba(70,48,28,.18));
+    }
+    .asset {
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      pointer-events:none;
+    }
+
+    /* Start with exactly one closed envelope. */
+    .closed { z-index:5; opacity:1; }
+    .liner  { z-index:1; opacity:0; }
+    .card {
+      z-index:2;
+      inset:auto;
+      left:50%;
+      top:49%;
+      width:34%;
+      height:auto;
+      opacity:0;
+      transform:translate(-50%, 10%) scale(.80);
+      transform-origin:center;
+      filter:drop-shadow(0 12px 18px rgba(35,25,15,.24));
+    }
+    .pocket { z-index:3; opacity:0; }
+
+    .play .closed {
+      animation:closedAway .28s ease .62s forwards;
+    }
+    .play .liner,
+    .play .pocket {
+      animation:openAppears .28s ease .62s forwards,
+                envelopeAway .50s ease 3.75s forwards;
+    }
+    .play .card {
+      animation:
+        cardPeek .55s ease 1.05s forwards,
+        cardRise 1.55s cubic-bezier(.18,.75,.15,1) 1.55s forwards,
+        cardSettle .30s ease 3.10s forwards,
+        cardFade .25s ease 3.95s forwards;
+    }
+
+    @keyframes closedAway {
+      from { opacity:1; }
+      to   { opacity:0; }
+    }
+    @keyframes openAppears {
+      from { opacity:0; }
+      to   { opacity:1; }
     }
     @keyframes cardPeek {
-      from { opacity:0; transform:translate(-50%,22%) scale(.78); }
-      to { opacity:1; transform:translate(-50%,2%) scale(.78); }
+      from { opacity:0; transform:translate(-50%,10%) scale(.80); }
+      to   { opacity:1; transform:translate(-50%,-8%) scale(.80); }
     }
     @keyframes cardRise {
-      to { opacity:1; transform:translate(-50%,-61%) scale(1.48); }
+      to { opacity:1; transform:translate(-50%,-65%) scale(1.50); }
     }
     @keyframes cardSettle {
-      0% { transform:translate(-50%,-61%) scale(1.48); }
-      60% { transform:translate(-50%,-64%) scale(1.51); }
-      100% { transform:translate(-50%,-62.5%) scale(1.49); }
+      0%   { transform:translate(-50%,-65%) scale(1.50); }
+      55%  { transform:translate(-50%,-68%) scale(1.52); }
+      100% { transform:translate(-50%,-66%) scale(1.50); }
     }
-    @keyframes envelopeAway { to { opacity:0; transform:translateY(12px) scale(.985); } }
-    @keyframes cardFade { to { opacity:0; } }
-    .clickable { width:min(600px,96vw); opacity:0; display:none; background:#fff; box-shadow:0 16px 30px rgba(68,48,25,.18); }
-    .clickable.show { display:block; animation:finalReveal .45s ease forwards; }
-    .clickable img { display:block; width:100%; height:auto; border:0; }
-    .footer-row { display:flex; width:100%; }
-    .footer-row>* { display:block; }
-    @keyframes finalReveal { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-    .replay { margin-top:20px; border:1px solid rgba(18,58,114,.24); background:#fffaf2; color:var(--pink); padding:10px 18px; border-radius:999px; font:600 16px Georgia,serif; cursor:pointer; box-shadow:0 5px 14px rgba(69,47,25,.08); }
-    .email-note { text-align:center; font-size:14px; margin-top:10px; opacity:.72; }
+    @keyframes envelopeAway {
+      to { opacity:0; transform:translateY(14px) scale(.985); }
+    }
+    @keyframes cardFade {
+      to { opacity:0; }
+    }
+
+    .clickable {
+      width:min(600px,96vw);
+      opacity:0;
+      display:none;
+      background:#fff;
+      box-shadow:0 16px 30px rgba(68,48,25,.18);
+    }
+    .clickable.show {
+      display:block;
+      animation:finalReveal .35s ease forwards;
+    }
+    .clickable img {
+      display:block;
+      width:100%;
+      height:auto;
+      border:0;
+    }
+    .footer-row {
+      display:flex;
+      width:100%;
+    }
+    .footer-row > * { display:block; }
+    @keyframes finalReveal {
+      from { opacity:0; transform:translateY(4px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .replay {
+      margin-top:20px;
+      border:1px solid rgba(18,58,114,.24);
+      background:#fffaf2;
+      color:var(--pink);
+      padding:10px 18px;
+      border-radius:999px;
+      font:600 16px Georgia,serif;
+      cursor:pointer;
+      box-shadow:0 5px 14px rgba(69,47,25,.08);
+    }
     @media(max-width:700px){
-      .stage{height:650px;}
-      .env-wrap{width:108vw;left:50%;top:26px;}
-      .card{width:38%;top:48%;}
-      .seal{width:14%;top:56%;}
+      .stage { height:650px; }
+      .envelope-scene { width:108vw; top:25px; }
+      .card { width:37%; top:49%; }
     }
-    @media(prefers-reduced-motion:reduce){ .stage{display:none}.clickable{display:block;opacity:1} }
+    @media(prefers-reduced-motion:reduce){
+      .stage { display:none; }
+      .clickable { display:block; opacity:1; }
+    }
   </style>
 </head>
 <body>
 <main class="page">
   <section class="stage" id="stage" aria-label="Animated envelope opening">
-    <div class="env-wrap play" id="envWrap">
-      <img class="layer liner" src="envelope-open.png" alt="Open envelope liner">
-      <img class="layer card" src="invitation-exact.png" alt="Kathryn and David Save the Date">
-      <img class="layer pocket" src="envelope-pocket.png" alt="Envelope front pocket">
-      <img class="layer flap" src="envelope-flap.png" alt="Envelope flap">
-      <img class="layer seal" src="wax-seal.png" alt="K and D wax seal">
+    <div class="envelope-scene play" id="scene">
+      <img class="asset liner" src="envelope-liner.png" alt="">
+      <img class="asset card" src="invitation-exact.png" alt="Kathryn and David Save the Date">
+      <img class="asset pocket" src="envelope-pocket.png" alt="">
+      <img class="asset closed" src="envelope-closed.png" alt="Closed wedding envelope">
     </div>
   </section>
 
@@ -92,24 +180,34 @@
   </section>
 
   <button class="replay" id="replay" type="button">↻ Replay envelope animation</button>
-  <div class="email-note">Use <strong>envelope-closed.png</strong> as the clickable image in Gmail.</div>
 </main>
 <script>
-  const stage=document.getElementById('stage');
-  const envWrap=document.getElementById('envWrap');
-  const finalInvite=document.getElementById('clickableInvitation');
-  const replay=document.getElementById('replay');
+  const stage = document.getElementById('stage');
+  const scene = document.getElementById('scene');
+  const finalInvite = document.getElementById('clickableInvitation');
+  const replay = document.getElementById('replay');
   let timer;
-  function revealFinal(){ stage.style.display='none'; finalInvite.classList.add('show'); window.scrollTo({top:0,behavior:'smooth'}); }
-  function start(){
-    clearTimeout(timer);
-    finalInvite.classList.remove('show'); finalInvite.style.display='none';
-    stage.style.display='block';
-    envWrap.classList.remove('play'); void envWrap.offsetWidth; envWrap.classList.add('play');
-    timer=setTimeout(()=>{finalInvite.style.display=''; revealFinal();},4300);
+
+  function revealFinal() {
+    stage.style.display = 'none';
+    finalInvite.style.display = '';
+    finalInvite.classList.add('show');
+    window.scrollTo({top:0, behavior:'smooth'});
   }
-  replay.addEventListener('click',start);
-  timer=setTimeout(()=>{finalInvite.style.display=''; revealFinal();},4300);
+
+  function start() {
+    clearTimeout(timer);
+    finalInvite.classList.remove('show');
+    finalInvite.style.display = 'none';
+    stage.style.display = 'block';
+    scene.classList.remove('play');
+    void scene.offsetWidth;
+    scene.classList.add('play');
+    timer = setTimeout(revealFinal, 4250);
+  }
+
+  replay.addEventListener('click', start);
+  timer = setTimeout(revealFinal, 4250);
 </script>
 </body>
 </html>
