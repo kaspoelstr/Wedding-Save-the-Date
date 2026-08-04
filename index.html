@@ -18,10 +18,10 @@
     .pocket { z-index:3; }
     .flap { z-index:4; transform-origin:50% 66.5%; backface-visibility:hidden; transform-style:preserve-3d; }
     .seal { z-index:5; inset:auto; left:50%; top:56%; width:15.5%; height:auto; transform:translate(-50%,-50%); filter:drop-shadow(0 5px 6px rgba(45,24,5,.32)); }
-    .env-wrap.play .seal { animation:sealRelease .85s cubic-bezier(.2,.7,.2,1) .55s forwards; }
-    .env-wrap.play .flap { animation:flapOpen 1.05s cubic-bezier(.25,.7,.2,1) 1.2s forwards; }
-    .env-wrap.play .card { animation:cardPeek .65s ease 2.05s forwards, cardRise 1.45s cubic-bezier(.18,.75,.15,1) 2.62s forwards, cardSettle .35s ease 4.07s forwards, cardFade .35s ease 4.75s forwards; }
-    .env-wrap.play .liner,.env-wrap.play .pocket { animation:envelopeAway .65s ease 4.45s forwards; }
+    .env-wrap.play .seal { animation:sealRelease .7s cubic-bezier(.2,.7,.2,1) .08s forwards; }
+    .env-wrap.play .flap { animation:flapOpen 1.0s cubic-bezier(.25,.7,.2,1) .68s forwards; }
+    .env-wrap.play .card { animation:cardPeek .55s ease 1.48s forwards, cardRise 1.4s cubic-bezier(.18,.75,.15,1) 1.98s forwards, cardSettle .32s ease 3.38s forwards, cardFade .3s ease 4.02s forwards; }
+    .env-wrap.play .liner,.env-wrap.play .pocket { animation:envelopeAway .55s ease 3.78s forwards; }
     @keyframes sealRelease {
       0% { transform:translate(-50%,-50%) scale(1); opacity:1; }
       25% { transform:translate(-50%,-50%) scale(1.08); }
@@ -106,10 +106,10 @@
     finalInvite.classList.remove('show'); finalInvite.style.display='none';
     stage.style.display='block';
     envWrap.classList.remove('play'); void envWrap.offsetWidth; envWrap.classList.add('play');
-    timer=setTimeout(()=>{finalInvite.style.display=''; revealFinal();},5050);
+    timer=setTimeout(()=>{finalInvite.style.display=''; revealFinal();},4300);
   }
   replay.addEventListener('click',start);
-  timer=setTimeout(()=>{finalInvite.style.display=''; revealFinal();},5050);
+  timer=setTimeout(()=>{finalInvite.style.display=''; revealFinal();},4300);
 </script>
 </body>
 </html>
