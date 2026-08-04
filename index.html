@@ -5,103 +5,164 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kathryn & David — Save the Date</title>
   <style>
-    :root { --cream:#f4efe6; --navy:#123a72; --pink:#d84d86; }
+    :root { --cream:#f5efe5; --navy:#123a72; --pink:#d84d86; }
     * { box-sizing:border-box; }
-    html, body { margin:0; min-height:100%; background:var(--cream); }
-    body { font-family:Georgia, 'Times New Roman', serif; color:var(--navy); overflow-x:hidden; }
-    .page { min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:18px 12px 42px; }
-    .stage { position:relative; width:min(980px, 100%); height:min(760px, 78vw); min-height:430px; overflow:visible; }
-    .envelope-img { position:absolute; left:50%; width:min(900px, 94vw); transform:translateX(-50%); top:50%; transform-origin:center; filter:drop-shadow(0 14px 18px rgba(72,52,30,.18)); }
-    #closedEnvelope { z-index:5; opacity:1; transform:translate(-50%,-50%) scale(1); animation:closedExit .7s ease 1.05s forwards; }
-    #openEnvelope { z-index:3; opacity:0; transform:translate(-50%,-50%) scale(1); animation:openEnter .5s ease 1.15s forwards, openExit .7s ease 4.15s forwards; }
-    #cardAnim { position:absolute; z-index:2; left:50%; top:51%; width:min(360px, 39vw); max-height:72vh; object-fit:contain; transform:translate(-50%,28%) scale(.82); opacity:0; filter:drop-shadow(0 12px 18px rgba(38,26,15,.24)); animation:cardPeek .65s ease 1.7s forwards, cardRise 1.35s cubic-bezier(.2,.75,.15,1) 2.35s forwards, cardSettle .35s ease 3.7s forwards, cardFade .45s ease 4.25s forwards; }
-    .seal-drop { position:absolute; z-index:7; left:50%; top:50%; width:78px; height:78px; border-radius:50%; display:flex; align-items:center; justify-content:center; transform:translate(-50%,35%); color:#55300b; font:700 22px Georgia,serif; background:radial-gradient(circle at 38% 32%, #e5bd68 0 12%, #bd7b24 42%, #8d4e11 73%, #d9a34c 100%); border:5px solid #b76f1c; box-shadow:0 4px 10px rgba(0,0,0,.25), inset 0 0 0 3px #e2b55f; opacity:0; animation:sealRelease 1.1s ease .65s forwards; }
-    .seal-drop::after { content:'K&D'; text-shadow:0 1px rgba(255,255,255,.45); }
-    .clickable { width:min(600px, 96vw); opacity:0; display:none; margin-top:-30px; background:#fff; box-shadow:0 16px 30px rgba(68,48,25,.18); }
-    .clickable.show { display:block; animation:finalReveal .65s ease forwards; }
+    html,body { margin:0; min-height:100%; background:var(--cream); }
+    body { font-family:Georgia,"Times New Roman",serif; color:var(--navy); overflow-x:hidden; }
+    .page { min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:18px 12px 44px; }
+    .stage {
+      position:relative;
+      width:min(1120px,100%);
+      height:clamp(600px,76vw,900px);
+      overflow:hidden;
+    }
+    .asset { position:absolute; left:50%; user-select:none; -webkit-user-drag:none; }
+    .envelope {
+      width:min(1000px,96vw);
+      top:55%;
+      transform:translate(-50%,-50%);
+      filter:drop-shadow(0 16px 20px rgba(70,48,27,.18));
+    }
+    #closedEnvelope { z-index:5; opacity:1; animation:closedAway .45s ease 1.05s forwards; }
+    #openBack { z-index:1; opacity:0; animation:openIn .5s ease 1.08s forwards, envelopeAway .65s ease 4.55s forwards; }
+    #cardAnim {
+      z-index:2;
+      width:min(410px,40vw);
+      top:57%;
+      transform:translate(-50%,10%) scale(.82);
+      opacity:0;
+      filter:drop-shadow(0 14px 20px rgba(52,35,18,.24));
+      animation:peek .8s cubic-bezier(.2,.72,.22,1) 1.55s forwards,
+                rise 1.55s cubic-bezier(.16,.78,.16,1) 2.35s forwards,
+                settle .35s ease 3.9s forwards,
+                cardOut .35s ease 4.9s forwards;
+    }
+    #pocket { z-index:3; opacity:0; animation:openIn .5s ease 1.08s forwards, envelopeAway .65s ease 4.55s forwards; }
+    #seal {
+      z-index:7;
+      width:min(138px,13vw);
+      top:55%;
+      transform:translate(-50%,13%);
+      filter:drop-shadow(0 7px 8px rgba(49,28,8,.32));
+      opacity:0;
+      animation:sealAppear .12s linear .72s forwards,
+                sealDrop .72s cubic-bezier(.34,.03,.68,.95) .82s forwards;
+    }
+    .clickable {
+      width:min(620px,96vw);
+      display:none;
+      opacity:0;
+      background:#fff;
+      box-shadow:0 18px 34px rgba(68,48,25,.18);
+    }
+    .clickable.show { display:block; animation:finalIn .45s ease forwards; }
     .clickable img { display:block; width:100%; height:auto; border:0; }
     .footer-row { display:flex; width:100%; }
-    .footer-row > * { display:block; }
-    .replay { margin-top:20px; border:1px solid rgba(18,58,114,.25); background:#fffaf2; color:var(--pink); padding:10px 18px; border-radius:999px; font:600 16px Georgia,serif; cursor:pointer; box-shadow:0 5px 14px rgba(69,47,25,.08); }
-    .replay:hover { transform:translateY(-1px); }
-    .email-note { text-align:center; font-size:14px; margin-top:10px; opacity:.72; }
-    @keyframes closedExit { to { opacity:0; transform:translate(-50%,-50%) scale(.995); } }
-    @keyframes openEnter { to { opacity:1; } }
-    @keyframes openExit { to { opacity:0; transform:translate(-50%,-48%) scale(.98); } }
-    @keyframes sealRelease { 0%{opacity:0;transform:translate(-50%,35%) scale(.9)} 20%{opacity:1} 45%{transform:translate(-50%,35%) scale(1.06)} 100%{opacity:0;transform:translate(-50%,190%) rotate(22deg) scale(.72)} }
-    @keyframes cardPeek { from{opacity:0;transform:translate(-50%,28%) scale(.82)} to{opacity:1;transform:translate(-50%,3%) scale(.82)} }
-    @keyframes cardRise { to{transform:translate(-50%,-54%) scale(.94)} }
-    @keyframes cardSettle { 0%{transform:translate(-50%,-54%) scale(.94)} 60%{transform:translate(-50%,-58%) scale(.96)} 100%{transform:translate(-50%,-56%) scale(.95)} }
-    @keyframes cardFade { to{opacity:0} }
-    @keyframes finalReveal { from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:translateY(0)} }
-    @media (max-width:700px) {
-      .stage { height:610px; min-height:610px; }
-      .envelope-img { width:104vw; top:47%; }
-      #cardAnim { width:43vw; top:49%; }
-      .clickable { margin-top:-85px; }
-      .seal-drop { width:58px;height:58px;font-size:17px; }
+    .footer-row>* { display:block; }
+    .replay {
+      margin-top:22px; border:1px solid rgba(18,58,114,.22); background:#fffaf2;
+      color:var(--pink); padding:10px 18px; border-radius:999px;
+      font:600 16px Georgia,serif; cursor:pointer; box-shadow:0 5px 14px rgba(69,47,25,.08);
     }
-    @media (prefers-reduced-motion: reduce) {
+    .replay:hover { transform:translateY(-1px); }
+    .email-note { text-align:center; font-size:14px; margin-top:11px; opacity:.72; }
+
+    @keyframes sealAppear { to { opacity:1; } }
+    @keyframes sealDrop {
+      0% { opacity:1; transform:translate(-50%,13%) rotate(0) scale(1); }
+      24% { transform:translate(-50%,5%) rotate(-4deg) scale(1.04); }
+      100% { opacity:0; transform:translate(-43%,180%) rotate(28deg) scale(.72); }
+    }
+    @keyframes closedAway { to { opacity:0; } }
+    @keyframes openIn { to { opacity:1; } }
+    @keyframes peek {
+      from { opacity:0; transform:translate(-50%,10%) scale(.82); }
+      to   { opacity:1; transform:translate(-50%,-7%) scale(.82); }
+    }
+    @keyframes rise { to { transform:translate(-50%,-57%) scale(.96); } }
+    @keyframes settle {
+      0% { transform:translate(-50%,-57%) scale(.96); }
+      55% { transform:translate(-50%,-60%) scale(.975); }
+      100% { transform:translate(-50%,-58.5%) scale(.97); }
+    }
+    @keyframes envelopeAway { to { opacity:0; transform:translate(-50%,-47%) scale(.985); } }
+    @keyframes cardOut { to { opacity:0; } }
+    @keyframes finalIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+
+    @media (max-width:700px) {
+      .stage { height:620px; }
+      .envelope { width:108vw; top:51%; }
+      #cardAnim { width:45vw; top:53%; }
+      #seal { width:16vw; top:51%; }
+    }
+    @media (max-width:430px) {
+      .stage { height:560px; }
+      .envelope { width:116vw; }
+      #cardAnim { width:49vw; }
+    }
+    @media (prefers-reduced-motion:reduce) {
       .stage { display:none; }
-      .clickable { display:block; opacity:1; margin-top:0; }
+      .clickable { display:block; opacity:1; }
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <section class="stage" id="stage" aria-label="Animated envelope opening">
-      <img id="cardAnim" src="invitation-exact.png" alt="Kathryn and David Save the Date">
-      <img id="openEnvelope" class="envelope-img" src="envelope-open.png" alt="Open decorated wedding envelope">
-      <img id="closedEnvelope" class="envelope-img" src="envelope-closed.png" alt="Closed decorated wedding envelope">
-      <div class="seal-drop" aria-hidden="true"></div>
-    </section>
+<main class="page">
+  <section class="stage" id="stage" aria-label="Animated envelope opening">
+    <img id="openBack" class="asset envelope" src="envelope-open.png" alt="Open decorated wedding envelope">
+    <img id="cardAnim" class="asset" src="invitation-exact.png" alt="Kathryn and David Save the Date">
+    <img id="pocket" class="asset envelope" src="envelope-pocket.png" alt="">
+    <img id="closedEnvelope" class="asset envelope" src="envelope-closed.png" alt="Closed decorated wedding envelope">
+    <img id="seal" class="asset" src="seal.png" alt="">
+  </section>
 
-    <section class="clickable" id="clickableInvitation" aria-label="Interactive save the date">
-      <img src="01_top.jpg" alt="Kathryn and David Save the Date">
-      <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kathryn%20%26%20David%27s%20Wedding&dates=20270710/20270711&location=Atlixco%2C%20Puebla%2C%20Mexico&details=Formal%20invitation%20with%20ceremony%20details%2C%20accommodations%2C%20transportation%20information%2C%20and%20RSVP%20instructions%20will%20be%20sent%20closer%20to%20the%20wedding." target="_blank" rel="noopener"><img src="02_date.jpg" alt="Add July 10, 2027 to Google Calendar"></a>
-      <img src="03_middle.jpg" alt="Wedding details">
-      <a href="https://www.google.com/maps/search/?api=1&query=Parroquia%20de%20Santa%20Mar%C3%ADa%20de%20la%20Natividad%2C%20Atlixco%2C%20Puebla%2C%20Mexico" target="_blank" rel="noopener"><img src="04_church.jpg" alt="View the church on Google Maps"></a>
-      <img src="05_questions.jpg" alt="Questions">
-      <div class="footer-row">
-        <img src="06a_footer_left.jpg" style="width:20.5%" alt="">
-        <a href="mailto:david25inestroza@gmail.com" style="width:29.333%"><img src="06b_david.jpg" alt="Email David"></a>
-        <img src="06c_footer_mid.jpg" style="width:4.833%" alt="">
-        <a href="mailto:kaspoelstr@gmail.com" style="width:23%"><img src="06d_kathryn.jpg" alt="Email Kathryn"></a>
-        <img src="06e_footer_right.jpg" style="width:22.334%" alt="">
-      </div>
-      <img src="07_bottom.jpg" alt="">
-    </section>
+  <section class="clickable" id="clickableInvitation" aria-label="Interactive save the date">
+    <img src="01_top.jpg" alt="Kathryn and David Save the Date">
+    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kathryn%20%26%20David%27s%20Wedding&dates=20270710/20270711&location=Atlixco%2C%20Puebla%2C%20Mexico&details=Formal%20invitation%20with%20ceremony%20details%2C%20accommodations%2C%20transportation%20information%2C%20and%20RSVP%20instructions%20will%20be%20sent%20closer%20to%20the%20wedding." target="_blank" rel="noopener"><img src="02_date.jpg" alt="Add July 10, 2027 to Google Calendar"></a>
+    <img src="03_middle.jpg" alt="Wedding details">
+    <a href="https://www.google.com/maps/search/?api=1&query=Parroquia%20de%20Santa%20Mar%C3%ADa%20de%20la%20Natividad%2C%20Atlixco%2C%20Puebla%2C%20Mexico" target="_blank" rel="noopener"><img src="04_church.jpg" alt="View the church on Google Maps"></a>
+    <img src="05_questions.jpg" alt="Questions">
+    <div class="footer-row">
+      <img src="06a_footer_left.jpg" style="width:20.5%" alt="">
+      <a href="mailto:david25inestroza@gmail.com" style="width:29.333%"><img src="06b_david.jpg" alt="Email David"></a>
+      <img src="06c_footer_mid.jpg" style="width:4.833%" alt="">
+      <a href="mailto:kaspoelstr@gmail.com" style="width:23%"><img src="06d_kathryn.jpg" alt="Email Kathryn"></a>
+      <img src="06e_footer_right.jpg" style="width:22.334%" alt="">
+    </div>
+    <img src="07_bottom.jpg" alt="">
+  </section>
 
-    <button class="replay" id="replay" type="button">↻ Replay envelope animation</button>
-    <div class="email-note">The closed-envelope image for Gmail is included as <strong>envelope-closed.png</strong>.</div>
-  </main>
+  <button class="replay" id="replay" type="button">↻ Replay envelope animation</button>
+  <div class="email-note">Use <strong>envelope-closed.png</strong> as the clickable image in Gmail.</div>
+</main>
+<script>
+  let stage = document.getElementById('stage');
+  const finalInvite = document.getElementById('clickableInvitation');
+  const replay = document.getElementById('replay');
+  let timer;
 
-  <script>
-    const stage = document.getElementById('stage');
-    const finalInvite = document.getElementById('clickableInvitation');
-    const replay = document.getElementById('replay');
+  function revealFinal(activeStage = stage) {
+    activeStage.style.display = 'none';
+    finalInvite.style.display = '';
+    finalInvite.classList.add('show');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function startTimer(activeStage = stage) {
+    timer = setTimeout(() => revealFinal(activeStage), 5350);
+  }
+  startTimer();
 
-    function revealFinal() {
-      stage.style.display = 'none';
-      finalInvite.classList.add('show');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    let timer = setTimeout(revealFinal, 4850);
-
-    replay.addEventListener('click', () => {
-      clearTimeout(timer);
-      finalInvite.classList.remove('show');
-      finalInvite.style.display = 'none';
-      stage.style.display = 'block';
-      const replacement = stage.cloneNode(true);
-      stage.replaceWith(replacement);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      timer = setTimeout(() => {
-        replacement.style.display = 'none';
-        finalInvite.style.display = '';
-        finalInvite.classList.add('show');
-      }, 4850);
-    });
-  </script>
+  replay.addEventListener('click', () => {
+    clearTimeout(timer);
+    finalInvite.classList.remove('show');
+    finalInvite.style.display = 'none';
+    const replacement = stage.cloneNode(true);
+    replacement.style.display = 'block';
+    stage.replaceWith(replacement);
+    stage = replacement;
+    window.scrollTo({top:0, behavior:'smooth'});
+    startTimer(replacement);
+  });
+</script>
 </body>
 </html>
