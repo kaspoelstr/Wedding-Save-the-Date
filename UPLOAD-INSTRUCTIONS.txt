@@ -1,1 +1,8 @@
-Upload every item inside this folder to the root of your GitHub repository. Keep the flap-frames folder intact.
+Upload every item inside this folder to the root of your GitHub repository.
+
+This version fixes the duplicated-open-flap problem:
+- The liner is revealed progressively.
+- There is no fully open envelope image underneath the moving flap.
+- The invitation begins peeking out only after the flap is mostly open.
+- The final still frame is removed before the live invitation movement begins.
+Keep the flap-frames folder intact.

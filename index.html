@@ -45,8 +45,7 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--navy);overflow-x:hi
 <img class="frame" src="flap-frames/flap-01.png" alt="">
 <img class="frame" src="flap-frames/flap-02.png" alt="">
 <img class="frame" src="flap-frames/flap-03.png" alt="">
-<img class="frame" src="flap-frames/flap-04.png" alt="">
-<img class="frame" src="flap-frames/flap-05.png" alt="Open envelope with invitation peeking out">
+<img class="frame" src="flap-frames/flap-04.png" alt="Flap almost open with invitation peeking out">
 <div class="live" id="live">
 <img class="live-layer liner" src="envelope-liner.png" alt="">
 <div class="card-clip"><img class="card" src="invitation-exact.png" alt="Kathryn and David Save the Date"></div>
@@ -79,12 +78,12 @@ function setFrame(i){frames.forEach((f,n)=>f.classList.toggle('active',n===i))}
 function showFinal(){stage.style.display='none';finalInvite.style.display='';finalInvite.classList.add('show');window.scrollTo({top:0,behavior:'smooth'})}
 function start(){
 clearTimers();finalInvite.classList.remove('show');finalInvite.style.display='none';stage.style.display='block';live.className='live';setFrame(0);
-for(let i=1;i<frames.length;i++)timers.push(setTimeout(()=>setFrame(i),420+i*175));
-timers.push(setTimeout(()=>{frames.forEach(f=>f.classList.remove('active'));live.classList.add('active')},1510));
-timers.push(setTimeout(()=>live.classList.add('rise'),1650));
-timers.push(setTimeout(()=>live.classList.add('fade-envelope'),3250));
-timers.push(setTimeout(()=>live.classList.add('fade-card'),3650));
-timers.push(setTimeout(showFinal,3830));
+for(let i=1;i<frames.length;i++)timers.push(setTimeout(()=>setFrame(i),420+i*190));
+timers.push(setTimeout(()=>{frames.forEach(f=>f.classList.remove('active'));live.classList.add('active')},1380));
+timers.push(setTimeout(()=>live.classList.add('rise'),1510));
+timers.push(setTimeout(()=>live.classList.add('fade-envelope'),3110));
+timers.push(setTimeout(()=>live.classList.add('fade-card'),3510));
+timers.push(setTimeout(showFinal,3690));
 }
 replay.addEventListener('click',start);start();
 </script>
