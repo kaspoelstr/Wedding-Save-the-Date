@@ -4,417 +4,166 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kathryn &amp; David — Save the Date</title>
-
 <style>
-:root{
-  --cream:#f4efe6;
-  --navy:#153a72;
-  --pink:#d74c84;
-}
-
+:root{--cream:#f4efe6;--navy:#153a72;--pink:#d74c84}
 *{box-sizing:border-box}
-
-html,body{
-  margin:0;
-  min-height:100%;
-  background:var(--cream);
-}
-
-body{
-  overflow-x:hidden;
-  color:var(--navy);
-  font-family:Georgia,"Times New Roman",serif;
-}
-
-.page{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:10px 10px 40px;
-}
-
-.stage{
-  position:relative;
-  width:min(1000px,100%);
-  height:clamp(650px,84vw,900px);
-}
-
+html,body{margin:0;min-height:100%;background:var(--cream)}
+body{overflow-x:hidden;color:var(--navy);font-family:Georgia,"Times New Roman",serif}
+.page{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:10px 10px 40px}
+.stage{position:relative;width:min(1000px,100%);height:clamp(650px,84vw,900px)}
 .scene{
-  position:absolute;
-  left:50%;
-  top:12px;
-  width:min(920px,97vw);
-  aspect-ratio:1484 / 1060;
-  transform:translateX(-50%);
-  filter:drop-shadow(0 15px 22px rgba(68,45,25,.18));
-  overflow:hidden;
+  position:absolute;left:50%;top:12px;width:min(920px,97vw);
+  aspect-ratio:1484/1060;transform:translateX(-50%);
+  filter:drop-shadow(0 15px 22px rgba(68,45,25,.18));overflow:hidden
 }
-
-/* Opening movie frames */
-.frame{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  opacity:0;
-  pointer-events:none;
-}
-
-.frame.active{
-  opacity:1;
-}
-
-/* Live envelope layers shown after the final opening frame */
-.live{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  pointer-events:none;
-}
-
-.live.active{
-  opacity:1;
-}
-
-.live-layer{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
-
-/* Back liner */
-.liner{
-  z-index:1;
-}
-
-/* Invitation between liner and pocket */
-.card-clip{
-  position:absolute;
-  inset:0 0 10% 0;
-  z-index:2;
-  overflow:hidden;
-}
-
+.frame{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;pointer-events:none}
+.frame.active{opacity:1}
+.live{position:absolute;inset:0;opacity:0;pointer-events:none}
+.live.active{opacity:1}
+.live-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.liner{z-index:1}
+.card-clip{position:absolute;inset:0 0 10% 0;z-index:2;overflow:hidden}
 .card{
-  position:absolute;
-  left:50%;
-  top:49%;
-  width:27%;
-  height:auto;
-  transform:translateX(-50%);
-  filter:drop-shadow(0 12px 18px rgba(40,28,18,.23));
+  position:absolute;left:50%;top:39.6%;width:26.3%;height:auto;
+  transform:translateX(-50%);filter:drop-shadow(0 12px 18px rgba(40,28,18,.23))
 }
-
-/* Front pocket */
-.pocket{
-  z-index:3;
-}
-
-/* Invitation rises */
-.live.rise .card{
-  animation:cardRise 1.65s cubic-bezier(.16,.82,.14,1) forwards;
-}
-
+.pocket{z-index:3}
+.live.rise .card{animation:cardRise 1.65s cubic-bezier(.16,.82,.14,1) forwards}
 @keyframes cardRise{
-  from{
-    top:49%;
-    width:27%;
-  }
-  to{
-    top:-2%;
-    width:42%;
-  }
+  from{top:39.6%;width:26.3%}
+  to{top:-2%;width:42%}
 }
-
-/* Envelope fades only after invitation clears pocket */
-.live.fade-envelope .liner,
-.live.fade-envelope .pocket{
-  animation:envelopeFade .48s ease forwards;
+.live.fade-envelope .liner,.live.fade-envelope .pocket{
+  animation:envelopeFade .48s ease forwards
 }
-
 @keyframes envelopeFade{
-  to{
-    opacity:0;
-    transform:translateY(12px) scale(.985);
-  }
+  to{opacity:0;transform:translateY(12px) scale(.985)}
 }
-
-/* Brief card fade before clickable invitation appears */
-.live.fade-card .card{
-  animation:cardFade .18s ease forwards;
-}
-
-@keyframes cardFade{
-  to{opacity:0}
-}
-
-/* Final clickable invitation */
+.live.fade-card .card{animation:cardFade .18s ease forwards}
+@keyframes cardFade{to{opacity:0}}
 .clickable{
-  display:none;
-  width:min(600px,96vw);
-  background:#fff;
-  opacity:0;
-  box-shadow:0 16px 30px rgba(68,45,25,.18);
+  display:none;width:min(600px,96vw);background:#fff;opacity:0;
+  box-shadow:0 16px 30px rgba(68,45,25,.18)
 }
-
-.clickable.show{
-  display:block;
-  animation:finalIn .35s ease forwards;
-}
-
-.clickable img{
-  display:block;
-  width:100%;
-  height:auto;
-  border:0;
-}
-
-.footer-row{
-  display:flex;
-  width:100%;
-}
-
-.footer-row > *{
-  display:block;
-}
-
+.clickable.show{display:block;animation:finalIn .35s ease forwards}
+.clickable img{display:block;width:100%;height:auto;border:0}
+.footer-row{display:flex;width:100%}.footer-row>*{display:block}
 @keyframes finalIn{
-  from{
-    opacity:0;
-    transform:translateY(5px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
 }
-
 .replay{
-  margin-top:20px;
-  padding:10px 18px;
-  border:1px solid rgba(21,58,114,.22);
-  border-radius:999px;
-  background:#fffaf2;
-  color:var(--pink);
-  font:600 16px Georgia,serif;
-  cursor:pointer;
-  box-shadow:0 5px 14px rgba(60,40,22,.08);
+  margin-top:20px;padding:10px 18px;border:1px solid rgba(21,58,114,.22);
+  border-radius:999px;background:#fffaf2;color:var(--pink);
+  font:600 16px Georgia,serif;cursor:pointer;
+  box-shadow:0 5px 14px rgba(60,40,22,.08)
 }
-
 @media(max-width:700px){
-  .stage{height:650px}
-  .scene{
-    width:108vw;
-    top:24px;
-  }
+  .stage{height:650px}.scene{width:108vw;top:24px}
 }
-
 @media(prefers-reduced-motion:reduce){
-  .stage{display:none}
-  .clickable{
-    display:block;
-    opacity:1;
-  }
+  .stage{display:none}.clickable{display:block;opacity:1}
 }
 </style>
 </head>
-
 <body>
 <main class="page">
 
-  <section class="stage" id="stage" aria-label="Animated wedding envelope">
-    <div class="scene" id="scene">
+<section class="stage" id="stage" aria-label="Animated wedding envelope">
+  <div class="scene">
+    <img class="frame active" src="flap-frames/flap-00.png" alt="Closed wedding envelope">
+    <img class="frame" src="flap-frames/flap-01.png" alt="">
+    <img class="frame" src="flap-frames/flap-02.png" alt="">
+    <img class="frame" src="flap-frames/flap-03.png" alt="">
+    <img class="frame" src="flap-frames/flap-04.png" alt="Envelope flap almost open with invitation peeking out">
 
-      <!-- IMPORTANT:
-           Only frames 00–04 are used.
-           flap-05.png is intentionally excluded because it is the
-           fully-open still that caused the duplicated-open-envelope look. -->
-      <img class="frame active"
-           src="flap-frames/flap-00.png"
-           alt="Closed wedding envelope">
-
-      <img class="frame"
-           src="flap-frames/flap-01.png"
-           alt="">
-
-      <img class="frame"
-           src="flap-frames/flap-02.png"
-           alt="">
-
-      <img class="frame"
-           src="flap-frames/flap-03.png"
-           alt="">
-
-      <img class="frame"
-           src="flap-frames/flap-04.png"
-           alt="Envelope flap almost open">
-
-      <!-- This section contains ONLY:
-           liner + invitation + front pocket.
-           There is no complete open-envelope image here. -->
-      <div class="live" id="live">
-
-        <img
-          class="live-layer liner"
-          src="envelope-liner.png"
-          alt=""
-        >
-
-        <div class="card-clip">
-          <img
-            class="card"
-            src="invitation-exact.png"
-            alt="Kathryn and David Save the Date"
-          >
-        </div>
-
-        <img
-          class="live-layer pocket"
-          src="envelope-pocket.png"
-          alt=""
-        >
-
+    <div class="live" id="live">
+      <img class="live-layer liner" src="envelope-liner.png" alt="">
+      <div class="card-clip">
+        <img class="card" src="invitation-exact.png" alt="Kathryn and David Save the Date">
       </div>
+      <img class="live-layer pocket" src="envelope-pocket.png" alt="">
     </div>
-  </section>
+  </div>
+</section>
 
-  <section
-    class="clickable"
-    id="clickableInvitation"
-    aria-label="Interactive save the date"
-  >
-    <img src="01_top.jpg" alt="Kathryn and David Save the Date">
+<section class="clickable" id="clickableInvitation" aria-label="Interactive save the date">
+  <img src="01_top.jpg" alt="Kathryn and David Save the Date">
 
-    <a
-      href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kathryn%20%26%20David%27s%20Wedding&dates=20270710/20270711&location=Atlixco%2C%20Puebla%2C%20Mexico&details=Formal%20invitation%20with%20ceremony%20details%2C%20accommodations%2C%20transportation%20information%2C%20and%20RSVP%20instructions%20will%20be%20sent%20closer%20to%20the%20wedding."
-      target="_blank"
-      rel="noopener"
-    >
-      <img src="02_date.jpg" alt="Add July 10, 2027 to Google Calendar">
+  <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kathryn%20%26%20David%27s%20Wedding&dates=20270710/20270711&location=Atlixco%2C%20Puebla%2C%20Mexico&details=Formal%20invitation%20with%20ceremony%20details%2C%20accommodations%2C%20transportation%20information%2C%20and%20RSVP%20instructions%20will%20be%20sent%20closer%20to%20the%20wedding."
+     target="_blank" rel="noopener">
+    <img src="02_date.jpg" alt="Add July 10, 2027 to Google Calendar">
+  </a>
+
+  <img src="03_middle.jpg" alt="Wedding details">
+
+  <a href="https://www.google.com/maps/search/?api=1&query=Parroquia%20de%20Santa%20Mar%C3%ADa%20de%20la%20Natividad%2C%20Atlixco%2C%20Puebla%2C%20Mexico"
+     target="_blank" rel="noopener">
+    <img src="04_church.jpg" alt="View the church on Google Maps">
+  </a>
+
+  <img src="05_questions.jpg" alt="Questions">
+
+  <div class="footer-row">
+    <img src="06a_footer_left.jpg" style="width:20.5%" alt="">
+    <a href="mailto:david25inestroza@gmail.com" style="width:29.333%">
+      <img src="06b_david.jpg" alt="Email David">
     </a>
-
-    <img src="03_middle.jpg" alt="Wedding details">
-
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=Parroquia%20de%20Santa%20Mar%C3%ADa%20de%20la%20Natividad%2C%20Atlixco%2C%20Puebla%2C%20Mexico"
-      target="_blank"
-      rel="noopener"
-    >
-      <img src="04_church.jpg" alt="View the church on Google Maps">
+    <img src="06c_footer_mid.jpg" style="width:4.833%" alt="">
+    <a href="mailto:kaspoelstr@gmail.com" style="width:23%">
+      <img src="06d_kathryn.jpg" alt="Email Kathryn">
     </a>
+    <img src="06e_footer_right.jpg" style="width:22.334%" alt="">
+  </div>
 
-    <img src="05_questions.jpg" alt="Questions">
+  <img src="07_bottom.jpg" alt="">
+</section>
 
-    <div class="footer-row">
-      <img src="06a_footer_left.jpg" style="width:20.5%" alt="">
-
-      <a href="mailto:david25inestroza@gmail.com" style="width:29.333%">
-        <img src="06b_david.jpg" alt="Email David">
-      </a>
-
-      <img src="06c_footer_mid.jpg" style="width:4.833%" alt="">
-
-      <a href="mailto:kaspoelstr@gmail.com" style="width:23%">
-        <img src="06d_kathryn.jpg" alt="Email Kathryn">
-      </a>
-
-      <img src="06e_footer_right.jpg" style="width:22.334%" alt="">
-    </div>
-
-    <img src="07_bottom.jpg" alt="">
-  </section>
-
-  <button class="replay" id="replay" type="button">
-    ↻ Replay envelope animation
-  </button>
-
+<button class="replay" id="replay" type="button">↻ Replay envelope animation</button>
 </main>
 
 <script>
-const stage = document.getElementById("stage");
-const frames = [...document.querySelectorAll(".frame")];
-const live = document.getElementById("live");
-const finalInvite = document.getElementById("clickableInvitation");
-const replay = document.getElementById("replay");
+const stage=document.getElementById("stage");
+const frames=[...document.querySelectorAll(".frame")];
+const live=document.getElementById("live");
+const finalInvite=document.getElementById("clickableInvitation");
+const replay=document.getElementById("replay");
+let timers=[];
 
-let timers = [];
-
-function clearTimers(){
-  timers.forEach(clearTimeout);
-  timers = [];
-}
-
+function clearTimers(){timers.forEach(clearTimeout);timers=[]}
 function setFrame(index){
-  frames.forEach((frame, frameIndex) => {
-    frame.classList.toggle("active", frameIndex === index);
-  });
+  frames.forEach((frame,i)=>frame.classList.toggle("active",i===index));
 }
-
 function showFinal(){
-  stage.style.display = "none";
-  finalInvite.style.display = "";
+  stage.style.display="none";
+  finalInvite.style.display="";
   finalInvite.classList.add("show");
-  window.scrollTo({top:0, behavior:"smooth"});
+  window.scrollTo({top:0,behavior:"smooth"});
 }
-
 function start(){
   clearTimers();
-
   finalInvite.classList.remove("show");
-  finalInvite.style.display = "none";
-  stage.style.display = "block";
-
-  live.className = "live";
+  finalInvite.style.display="none";
+  stage.style.display="block";
+  live.className="live";
   setFrame(0);
 
-  /* Opening movie.
-     Only frames 00–04 are played. */
-  for(let index = 1; index < frames.length; index++){
-    timers.push(
-      setTimeout(() => setFrame(index), 420 + index * 190)
-    );
+  for(let i=1;i<frames.length;i++){
+    timers.push(setTimeout(()=>setFrame(i),420+i*205));
   }
 
-  /* Remove all opening frames before showing the live layers.
-     This prevents one open-envelope image from sitting behind another. */
-  timers.push(
-    setTimeout(() => {
-      frames.forEach(frame => frame.classList.remove("active"));
-      live.classList.add("active");
-    }, 1320)
-  );
+  timers.push(setTimeout(()=>{
+    frames.forEach(frame=>frame.classList.remove("active"));
+    live.classList.add("active");
+  },1450));
 
-  /* Invitation begins rising from behind the pocket. */
-  timers.push(
-    setTimeout(() => {
-      live.classList.add("rise");
-    }, 1450)
-  );
-
-  /* Envelope fades after the invitation clears it. */
-  timers.push(
-    setTimeout(() => {
-      live.classList.add("fade-envelope");
-    }, 3050)
-  );
-
-  /* Fade animated card and reveal clickable version. */
-  timers.push(
-    setTimeout(() => {
-      live.classList.add("fade-card");
-    }, 3450)
-  );
-
-  timers.push(
-    setTimeout(showFinal, 3650)
-  );
+  timers.push(setTimeout(()=>live.classList.add("rise"),1580));
+  timers.push(setTimeout(()=>live.classList.add("fade-envelope"),3180));
+  timers.push(setTimeout(()=>live.classList.add("fade-card"),3580));
+  timers.push(setTimeout(showFinal,3770));
 }
 
-replay.addEventListener("click", start);
+replay.addEventListener("click",start);
 start();
 </script>
 </body>

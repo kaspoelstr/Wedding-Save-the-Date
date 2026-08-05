@@ -1,11 +1,1 @@
-Upload every item in this folder to the ROOT of your GitHub repository.
-
-Keep the flap-frames folder intact.
-
-This cleaned build uses only:
-- flap-frames/flap-00.png through flap-04.png
-- envelope-liner.png
-- invitation-exact.png
-- envelope-pocket.png
-
-The fully open still flap-05.png and older conflicting animation files have been removed.
+Upload every item inside Wedding-Save-the-Date-main to the root of your GitHub repository. Keep the flap-frames folder intact. These flap frames were rebuilt from the exact envelope artwork and no longer contain a second fully-open flap image baked into the background.
