@@ -1,0 +1,11 @@
+This version uses six pre-rendered flap frames instead of CSS 3D rotation.
+
+The invitation moves inside .card-window, which has overflow:hidden.
+That means the card cannot appear below the envelope pocket at any point.
+
+Sequence:
+1. Exact closed envelope
+2. Five progressive flap-opening frames
+3. Invitation slides upward inside a clipped window
+4. Envelope fades
+5. Original clickable invitation appears
